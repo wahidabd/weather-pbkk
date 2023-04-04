@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ji0nEkPsalg0oq2WpGXQKGhk+nGAaIx9TTnyutzprEU6BUkg3bdAejNAp9BBRs1DVs6uKzk3XoVwTClAgQQmQg==",
+  "success": true,
+  "projectFilePath": "D:\\ITS\\Semester-6\\PBKK\\WeatherWidget\\src\\WeatherWidget\\WeatherWidget\\WeatherWidget.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Lenovo\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

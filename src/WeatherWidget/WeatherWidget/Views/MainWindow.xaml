@@ -1,0 +1,188 @@
+﻿<Window x:Class="WeatherWidget.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="clr-namespace:WeatherWidget.Views" xmlns:viewmodels="clr-namespace:WeatherWidget.ViewModels"
+        mc:Ignorable="d"
+        Height="600" Width="720"
+        WindowStyle="None" MouseDown="Window_MouseDown"
+        x:Name="xWindow"
+        AllowsTransparency="True"
+        Background="Transparent">
+
+    <Window.Resources>
+        <Style x:Key="TextStyle" TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="30 0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <SolidColorBrush x:Key="TransparentBlack" Color="Black" Opacity="0.6" />
+    </Window.Resources>
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded" >
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="(Window.Opacity)"
+                                 From="0.0" To="1.0" Duration="0:0:1"
+                                 AutoReverse="False">
+                        <DoubleAnimation.EasingFunction>
+                            <QuarticEase EasingMode="EaseInOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                   
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/1.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0"
+                Padding="10px">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions> 
+
+                <StackPanel Grid.Row="0"
+                            x:Name="TopPanel"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left">
+
+                    <Label x:Name="CurrentDayOfWeek"
+                           Foreground="White"
+                           Content="{Binding Path=CurrentDayOfWeek}"
+                           FontSize="18px"
+                           Padding="10 0">
+                        <Label.ToolTip>
+                            <ToolTip>Current day of week</ToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                    <Label x:Name="CurrentDate"
+                           Foreground="White"
+                           Content="{Binding Path=CurrentDate}"
+                           FontSize="20px"
+                           Padding="10 0">
+                        <Label.ToolTip>
+                            <ToolTip>Current date</ToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                    <Label x:Name="CurrentWeatherType" 
+                           Foreground="White"
+                           Content="{Binding Path=CurrentWeatherType}"
+                           FontSize="22"
+                           Padding="10">
+                        <Label.ToolTip>
+                            <ToolTip>Current weather type</ToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1"
+                            x:Name="BottomPanel"
+                            VerticalAlignment="Bottom" 
+                            HorizontalAlignment="Left">
+
+                    <Label x:Name="CurrentMaxTemperature" 
+                           Foreground="White"
+                           Content="{Binding Path=CurrentMaxTemperature}"
+                           FontSize="45"
+                           Padding="0 0">
+                        <Label.ToolTip>
+                            <ToolTip>Maximum temperature for the current day</ToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                    <Label x:Name="CurrentMinTemperature" 
+                           Foreground="White"
+                           Content="{Binding Path=CurrentMinTemperature}"
+                           FontSize="30"
+                           Padding="0 0">
+                        <Label.ToolTip>
+                            <ToolTip>Minimal temperature for the current day</ToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                    <Label x:Name="CurrentPlace" 
+                           Foreground="White"
+                           Content="{Binding Path=CurrentPlace}"
+                           FontSize="18"
+                           Padding="0 0">
+                        <Label.ToolTip>
+                            <ToolTip>Current place and country code</ToolTip>
+                        </Label.ToolTip>
+                    </Label>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <StackPanel x:Name="DaysPanel"
+                    d:Opacity="1"
+                    Grid.Column="1" 
+                    Grid.Row="0"
+                    Background="{StaticResource TransparentBlack}">
+
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal"
+                        FlowDirection="RightToLeft">
+
+                <Button Style="{StaticResource SquareButtonStyle}"
+                        x:Name="CloseButton"
+                        Content="✕"
+                        Padding="0"
+                        FontSize="15"
+                        Click="CloseButton_Click">
+                    <Button.ToolTip>
+                        <ToolTip>Close window</ToolTip>
+                    </Button.ToolTip>
+                </Button>
+
+                <Button Style="{StaticResource SquareButtonStyle}"
+                        x:Name="SettingsButton"
+                        HorizontalAlignment="Left"
+                        Padding="0"
+                        FontSize="13"
+                        Content="⚙" Click="SettingsButton_Click">
+                    <Button.ToolTip>
+                        <ToolTip>Settings</ToolTip>
+                    </Button.ToolTip>
+                </Button>
+
+                <Button Style="{StaticResource SquareButtonStyle}"
+                        Padding="0"
+                        x:Name="UpdateButton"
+                        HorizontalAlignment="Left"
+                        FontSize="17"
+                        Command="{Binding LoadWeatherDataCommand}"
+                        Content="⭮">
+                    <Button.ToolTip>
+                        <ToolTip>Update weather data</ToolTip>
+                    </Button.ToolTip>
+                </Button>
+
+                <Button Style="{StaticResource SquareButtonStyle}"
+                        x:Name="HideButton"
+                        Padding="0"
+                        Content="___" Click="HideButton_Click">
+                    <Button.ToolTip>
+                        <ToolTip>Hide Window</ToolTip>
+                    </Button.ToolTip>
+                </Button>
+
+            </StackPanel>
+
+            <ItemsControl ItemsSource="{Binding Path=DayControls}">
+                
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</Window>
